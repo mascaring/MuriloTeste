@@ -1,0 +1,79 @@
+.top-menu {
+  background-color: #000000;
+  color: white;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.menu-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.menu-left {
+  flex: 1;
+}
+
+.site-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: white;
+}
+
+.menu-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-name {
+  font-size: 1rem;
+  color: white;
+  font-weight: 500;
+}
+
+.btn-logout {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: white;
+  color: black;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .menu-content {
+    padding: 1rem;
+  }
+  
+  .site-title {
+    font-size: 1.2rem;
+  }
+  
+  .user-name {
+    font-size: 0.9rem;
+  }
+  
+  .btn-logout {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}

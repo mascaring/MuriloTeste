@@ -1,0 +1,45 @@
+<app-top-menu></app-top-menu>
+
+<div class="task-container">
+  <div class="task-header">
+    <h1>Minhas Tarefas</h1>
+    <button class="btn-add-task" (click)="openTaskModal()">+ Nova Tarefa</button>
+  </div>
+  
+  <div class="task-content">
+    <div class="task-list">
+      <div *ngIf="tasks.length === 0" class="no-tasks">
+        <p>Nenhuma tarefa encontrada. Clique em "Nova Tarefa" para criar uma!</p>
+      </div>
+      
+      <div *ngFor="let task of tasks" class="task-item" [class.completed]="task.status === 'DONE'">
+        <div class="task-info">
+          <input 
+            type="checkbox" 
+            [checked]="task.status === 'DONE'"
+            (change)="toggleTask(task)">
+          <div class="task-details">
+            <span class="task-title">{{ task.title }}</span>
+            <span class="task-description" *ngIf="task.description">{{ task.description }}</span>
+            <span class="task-status" [class]="'status-' + task.status.toLowerCase()">
+              {{ getStatusLabel(task.status) }}
+            </span>
+            <span class="task-due-date" *ngIf="task.dueDate">
+              Vence em: {{ formatDate(task.dueDate) }}
+            </span>
+          </div>
+        </div>
+        <div class="task-actions">
+          <button (click)="editTask(task)" class="btn-details">Detalhes</button>
+          <button (click)="deleteTask(task.id!)" class="btn-delete">Excluir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-task-modal 
+  [(isOpen)]="isModalOpen" 
+  [taskToEdit]="selectedTask"
+  (taskSubmit)="onTaskSubmit($event)">
+</app-task-modal>

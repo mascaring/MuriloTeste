@@ -1,0 +1,15 @@
+<div class="container">
+  <h1>Minhas Tarefas</h1>
+
+  <div *ngIf="tasks.length > 0; else noTasks">
+    <ul>
+      <li *ngFor="let task of tasks">
+        <strong>{{ task.title }}</strong> - <span>Status: {{ task.status }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noTasks>
+    <p>Você ainda não tem tarefas cadastradas.</p>
+  </ng-template>
+</div>

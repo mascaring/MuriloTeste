@@ -1,0 +1,6 @@
+<div class="toast-container" *ngIf="isVisible && message">
+  <div [class]="toastClass">
+    <span class="toast-icon">{{ iconClass }}</span>
+    <span class="toast-message">{{ message.message }}</span>
+  </div>
+</div>

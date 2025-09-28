@@ -1,0 +1,5 @@
+<router-outlet></router-outlet>
+<app-toast 
+  [message]="toastMessage$ | async" 
+  [isVisible]="(isToastVisible$ | async) || false">
+</app-toast>
