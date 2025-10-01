@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { StorageService } from '../../auth/services/storage.service';
 
@@ -13,6 +13,13 @@ export interface Task {
   userName?: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface TaskFilters {
+  status?: string;
+  title?: string;
+  dueDate?: string;
+  createdAt?: string;
 }
 
 @Injectable({
@@ -36,6 +43,31 @@ export class TaskService {
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.apiUrl, { headers: this.getHeaders() });
+  }
+
+  searchTasks(filters: TaskFilters): Observable<Task[]> {
+    let params = new HttpParams();
+    
+    if (filters.status) {
+      params = params.set('status', filters.status);
+    }
+    
+    if (filters.title) {
+      params = params.set('title', filters.title);
+    }
+    
+    if (filters.dueDate) {
+      params = params.set('dueDate', filters.dueDate);
+    }
+    
+    if (filters.createdAt) {
+      params = params.set('createdAt', filters.createdAt);
+    }
+    
+    return this.http.get<Task[]>(`${this.apiUrl}/search`, { 
+      headers: this.getHeaders(),
+      params: params
+    });
   }
 
   getTaskById(id: number): Observable<Task> {

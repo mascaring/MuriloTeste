@@ -4,14 +4,21 @@ import br.com.riachuelo.challenge.to_do_list_api.dto.TaskMapper;
 import br.com.riachuelo.challenge.to_do_list_api.dto.TaskRequestDTO;
 import br.com.riachuelo.challenge.to_do_list_api.dto.TaskResponseDTO;
 import br.com.riachuelo.challenge.to_do_list_api.model.Task;
+import br.com.riachuelo.challenge.to_do_list_api.model.TaskStatus;
 import br.com.riachuelo.challenge.to_do_list_api.model.User;
 import br.com.riachuelo.challenge.to_do_list_api.repository.TaskRepository;
 import br.com.riachuelo.challenge.to_do_list_api.repository.UserRepository;
+import br.com.riachuelo.challenge.to_do_list_api.repository.specification.TaskSpecification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import br.com.riachuelo.challenge.to_do_list_api.repository.specification.TaskSpecification;
+import org.springframework.data.jpa.domain.Specification;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,8 +59,38 @@ public class TaskService {
 
         log.info("Buscando todas as tarefas para o usuário: {}", userEmail);
 
-        // 2. Usa o novo método do repositório para buscar apenas as tarefas desse usuário
         return taskRepository.findByUserEmail(userEmail)
+                .stream()
+                .map(TaskMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<TaskResponseDTO> searchTasks(String title, TaskStatus status, LocalDate createdAt, LocalDate  dueDate) {
+        String userEmail = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+
+        log.info("Iniciando busca de tarefas para o usuário: {}", userEmail);
+
+        Specification<Task> spec = Specification.where(TaskSpecification.belongsToUser(userEmail));
+
+        if (title!= null &&!title.isBlank()) {
+            spec = spec.and(TaskSpecification.titleContains(title));
+            log.info("Adicionando filtro por título: {}", title);
+        }
+        if (status!= null) {
+            spec = spec.and(TaskSpecification.hasStatus(status));
+            log.info("Adicionando filtro por status: {}", status);
+        }
+        if (createdAt!= null) {
+            spec = spec.and(TaskSpecification.createdAtAfter(createdAt));
+            log.info("Adicionando filtro por data de criação a partir de: {}", createdAt);
+        }
+        if (dueDate!= null) {
+            spec = spec.and(TaskSpecification.dueDateBefore(dueDate));
+            log.info("Adicionando filtro por data de vencimento até: {}", dueDate);
+        }
+
+        return taskRepository.findAll(spec)
                 .stream()
                 .map(TaskMapper::toDTO)
                 .collect(Collectors.toList());

@@ -1,0 +1,51 @@
+<div class="filters-container" *ngIf="isVisible">
+  <form [formGroup]="filterForm" class="filters-form">
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status" class="form-control">
+          <option *ngFor="let option of statusOptions" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="title">Título</label>
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          class="form-control"
+          placeholder="Buscar por título..."
+        />
+      </div>
+
+      <div class="filter-group">
+        <label for="createdAt">Atividade Criada Posterior a Data:</label>
+        <input
+          id="createdAt"
+          type="date"
+          formControlName="createdAt"
+          class="form-control"
+        />
+      </div>
+
+      <div class="filter-group">
+        <label for="dueDate">Data de Validade Ainda Não Expirada</label>
+        <input
+          id="dueDate"
+          type="date"
+          formControlName="dueDate"
+          class="form-control"
+        />
+      </div>
+    </div>
+
+    <div class="filters-actions">
+      <button type="button" class="btn-clear" (click)="clearFilters()" [disabled]="!hasActiveFilters">
+        Limpar Filtros
+      </button>
+    </div>
+  </form>
+</div>

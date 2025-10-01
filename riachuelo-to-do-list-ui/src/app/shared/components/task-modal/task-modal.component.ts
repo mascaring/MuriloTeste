@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit, OnChanges, SimpleChange
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { StorageService } from '../../../auth/services/storage.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 export interface TaskFormData {
   id?: number;
@@ -15,7 +16,7 @@ export interface TaskFormData {
 @Component({
   selector: 'app-task-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ConfirmationDialogComponent],
   templateUrl: './task-modal.component.html',
   styleUrls: ['./task-modal.component.scss']
 })
@@ -24,8 +25,10 @@ export class TaskModalComponent implements OnInit, OnChanges {
   @Input() taskToEdit: TaskFormData | null = null;
   @Output() isOpenChange = new EventEmitter<boolean>();
   @Output() taskSubmit = new EventEmitter<TaskFormData>();
+  @Output() deleteTask = new EventEmitter<number>();
 
   taskForm: FormGroup;
+  showConfirmationDialog: boolean = false;
   statusOptions = [
     { value: 'TO_DO', label: 'A Fazer' },
     { value: 'IN_PROGRESS', label: 'Em Progresso' },
@@ -117,6 +120,24 @@ export class TaskModalComponent implements OnInit, OnChanges {
       this.taskSubmit.emit(formData);
       this.closeModal();
     }
+  }
+
+  onDelete(): void {
+    if (this.taskToEdit?.id != null) {
+      this.showConfirmationDialog = true;
+    }
+  }
+
+  onDeleteConfirmed(): void {
+    if (this.taskToEdit?.id != null) {
+      this.deleteTask.emit(this.taskToEdit.id);
+      this.showConfirmationDialog = false;
+      this.closeModal();
+    }
+  }
+
+  onDeleteCancelled(): void {
+    this.showConfirmationDialog = false;
   }
 
   closeModal(): void {

@@ -3,3 +3,7 @@
   [message]="toastMessage$ | async" 
   [isVisible]="(isToastVisible$ | async) || false">
 </app-toast>
+<app-loading 
+  [isLoading]="(isLoading$ | async) || false"
+  [message]="(loadingMessage$ | async) || 'Carregando...'">
+</app-loading>

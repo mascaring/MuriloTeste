@@ -66,6 +66,13 @@
         <button type="button" class="btn-cancel" (click)="closeModal()">
           Cancelar
         </button>
+        <button 
+          type="button" 
+          class="btn-delete" 
+          *ngIf="taskToEdit?.id"
+          (click)="$event.stopPropagation(); onDelete()">
+          Excluir
+        </button>
         <button type="submit" class="btn-submit" [disabled]="taskForm.invalid">
           {{ submitButtonText }}
         </button>
@@ -73,3 +80,13 @@
     </form>
   </div>
 </div>
+
+<app-confirmation-dialog
+  [isVisible]="showConfirmationDialog"
+  title="Confirmar Exclusão"
+  message="Tem certeza que deseja excluir esta tarefa? Esta ação não pode ser desfeita."
+  confirmText="Excluir"
+  cancelText="Cancelar"
+  (confirmed)="onDeleteConfirmed()"
+  (cancelled)="onDeleteCancelled()">
+</app-confirmation-dialog>

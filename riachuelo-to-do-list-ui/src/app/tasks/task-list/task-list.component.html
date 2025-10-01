@@ -1,10 +1,16 @@
 <app-top-menu></app-top-menu>
 
 <div class="task-container">
-  <div class="task-header">
-    <h1>Minhas Tarefas</h1>
-    <button class="btn-add-task" (click)="openTaskModal()">+ Nova Tarefa</button>
-  </div>
+      <div class="task-header">
+        <h1>Minhas Tarefas</h1>
+        <button class="btn-add-task" (click)="openTaskModal()">+ Nova Tarefa</button>
+      </div>
+
+      <app-task-filters 
+        [isVisible]="true"
+        (filtersApplied)="applyFilters($event)"
+        (filtersCleared)="clearFilters()">
+      </app-task-filters>
   
   <div class="task-content">
     <div class="task-list">
@@ -27,6 +33,9 @@
             <span class="task-due-date" *ngIf="task.dueDate">
               Vence em: {{ formatDate(task.dueDate) }}
             </span>
+            <span class="task-created-date" *ngIf="task.createdAt">
+              Criada em: {{ formatDate(task.createdAt) }}
+            </span>
           </div>
         </div>
         <div class="task-actions">
@@ -41,5 +50,6 @@
 <app-task-modal 
   [(isOpen)]="isModalOpen" 
   [taskToEdit]="selectedTask"
-  (taskSubmit)="onTaskSubmit($event)">
+  (taskSubmit)="onTaskSubmit($event)"
+  (deleteTask)="deleteTask($event)">
 </app-task-modal>
