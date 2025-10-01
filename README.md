@@ -1,6 +1,7 @@
 Este repositório contém o código-fonte para o Desafio Técnico da posição de Desenvolvedor Fullstack Sênior. A aplicação consiste em uma API RESTful completa para um sistema de gerenciamento de tarefas, construída com Java e Spring Boot e uma aplicação web utilizando Angular e TypeScript
 
 1. Contexto do Desafio
+
 O objetivo foi desenvolver uma aplicação completa (Backend e Frontend) para um sistema de gerenciamento de tarefas (To-Do List), seguindo os requisitos funcionais e técnicos especificados, com foco em boas práticas de arquitetura, segurança e qualidade de código.    
 
 Funcionalidades Implementadas
@@ -23,6 +24,7 @@ Atributos da Tarefa:
 Cada tarefa contém título, descrição, data de criação, data de vencimento e um status (ex: TO_DO, IN_PROGRESS, DONE).
 
 2. Tech Stack (Backend)
+
 A API foi construída utilizando tecnologias modernas e robustas do ecossistema Java, conforme solicitado no desafio:    
 
 Linguagem: Java 17+
@@ -71,6 +73,7 @@ Package Manager: npm 10.9.2
 Utilitários: Lombok para redução de código boilerplate.
 
 3. Pré-requisitos
+
 Para executar o projeto localmente, você precisará ter as seguintes ferramentas instaladas:
 
 JDK 21
@@ -96,6 +99,7 @@ No backend basta executar o arquivo ToDoListApiApplication.java
 No fronte end, basta executar os seguintes comandos
 
 npm install
+
 ng serve
 
 5. Arquitetura
